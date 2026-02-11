@@ -23,7 +23,7 @@
     </header>
 
     <main class="container">
-      <!-- Outils de recherche / filtrage -->
+      <!-- Outils de recherche / filtrage / tri -->
       <section>
         <h1>Liste d’annonces</h1>
         <form id="listing-filter-form" class="filters" autocomplete="off">
@@ -31,16 +31,46 @@
             Recherche
             <input id="search-input" type="search" placeholder="Nom, description, vendeur..." />
           </label>
+
           <label>
-            Type de seeds
-            <select id="type-filter">
-              <option value="">Tous</option>
+            Catégorie
+            <select id="category-filter">
+              <option value="">Toutes</option>
               <option value="Feminisées">Féminisées</option>
               <option value="Auto">Auto</option>
               <option value="Regular">Regular</option>
               <option value="Packs">Packs</option>
             </select>
           </label>
+
+          <label>
+            Type
+            <select id="listing-type-filter">
+              <option value="">Tous</option>
+              <option value="Vente">Vente</option>
+              <option value="Echange">Échange</option>
+            </select>
+          </label>
+
+          <label>
+            Prix min (€)
+            <input id="min-price-filter" type="number" min="0" placeholder="0" />
+          </label>
+
+          <label>
+            Prix max (€)
+            <input id="max-price-filter" type="number" min="0" placeholder="100" />
+          </label>
+
+          <label>
+            Trier par
+            <select id="sort-filter">
+              <option value="recent">Plus récentes</option>
+              <option value="price-asc">Prix croissant</option>
+              <option value="price-desc">Prix décroissant</option>
+            </select>
+          </label>
+
           <button type="button" id="clear-filters">Réinitialiser</button>
         </form>
       </section>

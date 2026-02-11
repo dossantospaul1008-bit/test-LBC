@@ -1,7 +1,7 @@
 /* =====================================================
    Source de données locale + persistance navigateur
    ===================================================== */
-const ADS_STORAGE_KEY = "la_bonne_seed_ads_v1";
+const ADS_STORAGE_KEY = "la_bonne_seed_ads_v2";
 const PLACEHOLDER_IMAGE =
   "https://images.unsplash.com/photo-1604762524889-3e2fcc145683?auto=format&fit=crop&w=900&q=80";
 
@@ -13,9 +13,11 @@ const DEFAULT_ADS = [
     description:
       "Pack complet avec 5 variétés différentes. Conservation à sec, emballages scellés et étiquetés.",
     price: 35,
-    type: "Feminisées",
+    category: "Feminisées",
+    dealType: "Vente",
     seller: "GreenCollector75",
     image: "https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=900&q=80",
+    createdAt: Date.now() - 100000,
   },
   {
     id: "ad-2",
@@ -24,9 +26,11 @@ const DEFAULT_ADS = [
     description:
       "Collection de graines auto premium, stock limité. Idéal pour les passionnés qui recherchent des références rares.",
     price: 42,
-    type: "Auto",
+    category: "Auto",
+    dealType: "Vente",
     seller: "SeedSwapLyon",
     image: "https://images.unsplash.com/photo-1471193945509-9ad0617afabf?auto=format&fit=crop&w=900&q=80",
+    createdAt: Date.now() - 90000,
   },
   {
     id: "ad-3",
@@ -35,9 +39,11 @@ const DEFAULT_ADS = [
     description:
       "Série de collection regular millésime 2018. Provenance vérifiée, conservation stable, lot jamais ouvert.",
     price: 28,
-    type: "Regular",
+    category: "Regular",
+    dealType: "Echange",
     seller: "VintageGrower",
     image: "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=900&q=80",
+    createdAt: Date.now() - 80000,
   },
   {
     id: "ad-4",
@@ -46,9 +52,11 @@ const DEFAULT_ADS = [
     description:
       "Sélection de packs multi-catégories orientée échange entre particuliers. Détails du contenu sur demande.",
     price: 55,
-    type: "Packs",
+    category: "Packs",
+    dealType: "Vente",
     seller: "UrbanSeedMarket",
     image: "https://images.unsplash.com/photo-1461354464878-ad92f492a5a0?auto=format&fit=crop&w=900&q=80",
+    createdAt: Date.now() - 70000,
   },
 ];
 
@@ -78,11 +86,14 @@ function adCardTemplate(ad) {
   return `
     <article class="ad-card">
       <img class="ad-thumb" src="${ad.image || PLACEHOLDER_IMAGE}" alt="Image de l'annonce ${escapeHtml(ad.title)}" loading="lazy" />
-      <span class="pill">${escapeHtml(ad.type)}</span>
+      <div class="badges-row">
+        <span class="pill">${escapeHtml(ad.category)}</span>
+        <span class="pill pill-soft">${escapeHtml(ad.dealType)}</span>
+      </div>
       <h3>${escapeHtml(ad.title)}</h3>
       <p>${escapeHtml(ad.shortDescription)}</p>
       <p class="price">${ad.price} €</p>
-      <a class="card-link" href="detail-annonce.html?id=${encodeURIComponent(ad.id)}">Voir l’annonce</a>
+      <a class="card-link" href="detail-annonce.html?id=${encodeURIComponent(ad.id)}">Voir annonce</a>
     </article>
   `;
 }
@@ -100,54 +111,80 @@ function initHomepage() {
   const featuredGrid = document.querySelector("#featured-grid");
   if (!featuredGrid) return;
 
-  const ads = getAds().slice(0, 4);
+  const ads = getAds()
+    .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0))
+    .slice(0, 4);
   featuredGrid.innerHTML = ads.map(adCardTemplate).join("");
 }
 
 /* =====================================================
-   Page annonces.html : filtres et liste dynamique
+   Page annonces.html : filtres et tri dynamiques
    ===================================================== */
 function initListingsPage() {
   const grid = document.querySelector("#ads-grid");
   if (!grid) return;
 
   const searchInput = document.querySelector("#search-input");
-  const typeFilter = document.querySelector("#type-filter");
+  const categoryFilter = document.querySelector("#category-filter");
+  const listingTypeFilter = document.querySelector("#listing-type-filter");
+  const minPriceFilter = document.querySelector("#min-price-filter");
+  const maxPriceFilter = document.querySelector("#max-price-filter");
+  const sortFilter = document.querySelector("#sort-filter");
   const clearBtn = document.querySelector("#clear-filters");
   const resultsCount = document.querySelector("#results-count");
   const emptyMessage = document.querySelector("#empty-message");
 
   const urlParams = new URLSearchParams(window.location.search);
   const initialSearch = urlParams.get("q") || "";
-  const initialType = urlParams.get("type") || "";
+  const initialCategory = urlParams.get("type") || "";
 
   searchInput.value = initialSearch;
-  typeFilter.value = initialType;
+  categoryFilter.value = initialCategory;
 
   function render() {
     const query = searchInput.value.toLowerCase().trim();
-    const selectedType = typeFilter.value;
-    const ads = getAds();
+    const selectedCategory = categoryFilter.value;
+    const selectedDealType = listingTypeFilter.value;
+    const minPrice = minPriceFilter.value ? Number(minPriceFilter.value) : 0;
+    const maxPrice = maxPriceFilter.value ? Number(maxPriceFilter.value) : Infinity;
+    const selectedSort = sortFilter.value;
 
-    const filtered = ads.filter((ad) => {
+    let filtered = getAds().filter((ad) => {
       const inQuery =
         ad.title.toLowerCase().includes(query) ||
         ad.shortDescription.toLowerCase().includes(query) ||
         ad.seller.toLowerCase().includes(query);
-      const inType = selectedType === "" || ad.type === selectedType;
-      return inQuery && inType;
+      const inCategory = selectedCategory === "" || ad.category === selectedCategory;
+      const inDealType = selectedDealType === "" || ad.dealType === selectedDealType;
+      const inPriceRange = ad.price >= minPrice && ad.price <= maxPrice;
+      return inQuery && inCategory && inDealType && inPriceRange;
     });
+
+    if (selectedSort === "price-asc") {
+      filtered = filtered.sort((a, b) => a.price - b.price);
+    } else if (selectedSort === "price-desc") {
+      filtered = filtered.sort((a, b) => b.price - a.price);
+    } else {
+      filtered = filtered.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+    }
 
     grid.innerHTML = filtered.map(adCardTemplate).join("");
     resultsCount.textContent = `${filtered.length} annonce${filtered.length > 1 ? "s" : ""}`;
     emptyMessage.hidden = filtered.length !== 0;
   }
 
-  searchInput.addEventListener("input", render);
-  typeFilter.addEventListener("change", render);
+  [searchInput, categoryFilter, listingTypeFilter, minPriceFilter, maxPriceFilter, sortFilter].forEach((element) => {
+    const eventName = element.tagName === "INPUT" ? "input" : "change";
+    element.addEventListener(eventName, render);
+  });
+
   clearBtn.addEventListener("click", () => {
     searchInput.value = "";
-    typeFilter.value = "";
+    categoryFilter.value = "";
+    listingTypeFilter.value = "";
+    minPriceFilter.value = "";
+    maxPriceFilter.value = "";
+    sortFilter.value = "recent";
     render();
   });
 
@@ -178,12 +215,15 @@ function initDetailPage() {
       <img class="detail-image" src="${ad.image || PLACEHOLDER_IMAGE}" alt="Image principale de ${escapeHtml(ad.title)}" />
     </article>
     <article class="detail-panel">
-      <span class="pill">${escapeHtml(ad.type)}</span>
+      <div class="badges-row">
+        <span class="pill">${escapeHtml(ad.category)}</span>
+        <span class="pill pill-soft">${escapeHtml(ad.dealType)}</span>
+      </div>
       <h1>${escapeHtml(ad.title)}</h1>
       <p>${escapeHtml(ad.description)}</p>
       <p class="price">Prix : ${ad.price} €</p>
       <p><strong>Vendeur :</strong> ${escapeHtml(ad.seller)}</p>
-      <a class="contact-btn card-link" href="mailto:contact@labonneseed.local?subject=Annonce%20${encodeURIComponent(ad.title)}">Contacter le vendeur</a>
+      <a class="contact-btn card-link" href="mailto:contact@labonneseed.local?subject=Annonce%20${encodeURIComponent(ad.title)}">Contacter vendeur</a>
     </article>
   `;
 }
@@ -224,7 +264,8 @@ function initPostFormPage() {
     const title = document.querySelector("#title-input").value.trim();
     const description = document.querySelector("#description-input").value.trim();
     const price = Number(document.querySelector("#price-input").value);
-    const type = document.querySelector("#seed-type-input").value;
+    const category = document.querySelector("#seed-type-input").value;
+    const dealType = document.querySelector("#deal-type-input").value;
     const seller = document.querySelector("#seller-input").value.trim();
 
     if (!title || !description || !seller || Number.isNaN(price) || price < 0) {
@@ -239,9 +280,11 @@ function initPostFormPage() {
       shortDescription: description.slice(0, 80) + (description.length > 80 ? "..." : ""),
       description,
       price,
-      type,
+      category,
+      dealType,
       seller,
       image: uploadedImageBase64 || PLACEHOLDER_IMAGE,
+      createdAt: Date.now(),
     };
 
     ads.unshift(newAd);
