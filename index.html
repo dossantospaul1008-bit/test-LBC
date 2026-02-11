@@ -3,148 +3,66 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>La Bonne Seed • Petites annonces de collection</title>
-    <link rel="stylesheet" href="styles.css" />
+    <title>La Bonne Seed | Accueil</title>
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <header class="topbar">
-      <div class="container nav">
-        <a class="brand" href="#">La Bonne Seed</a>
-        <nav>
-          <a href="#listings">Annonces</a>
-          <a href="#publish">Déposer une annonce</a>
-          <a href="#rules">Règles</a>
+    <!-- Header global partagé sur toutes les pages -->
+    <header class="site-header">
+      <div class="container header-inner">
+        <a href="index.html" class="logo">La Bonne Seed</a>
+        <p class="slogan">Achetez, vendez, échangez entre growers</p>
+        <nav aria-label="Navigation principale">
+          <ul class="nav-links">
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="annonces.html">Mes annonces</a></li>
+            <li><a href="poster-annonce.html">Poster annonce</a></li>
+          </ul>
         </nav>
-        <button class="primary" type="button">Se connecter</button>
       </div>
     </header>
 
     <main>
-      <section class="hero">
-        <div class="container hero-grid">
-          <div>
-            <p class="badge">Marketplace de collection • France</p>
-            <h1>Achetez, vendez et échangez des graines de chanvre de collection.</h1>
-            <p>
-              Plateforme de mise en relation dédiée aux collectionneurs adultes. Toute annonce doit respecter le droit en vigueur et notre charte.
-            </p>
-            <div class="hero-actions">
-              <a class="primary" href="#listings">Parcourir les annonces</a>
-              <a class="secondary" href="#publish">Publier une annonce</a>
-            </div>
-          </div>
-
-          <form class="search-card" id="search-form">
-            <h2>Recherche rapide</h2>
-            <label>
-              Mot-clé
-              <input id="keyword" name="keyword" type="text" placeholder="Ex: variété ancienne" />
-            </label>
-            <label>
-              Type
-              <select id="type" name="type">
-                <option value="all">Tous</option>
-                <option value="vente">Vente</option>
-                <option value="echange">Échange</option>
-              </select>
-            </label>
-            <label>
-              Ville
-              <input id="city" name="city" type="text" placeholder="Ex: Lyon" />
-            </label>
-            <label>
-              Prix max (€)
-              <input id="max-price" name="max-price" type="number" min="0" placeholder="50" />
-            </label>
-            <div class="actions-row">
-              <button class="primary" type="submit">Filtrer</button>
-              <button class="secondary" id="reset-filters" type="button">Réinitialiser</button>
-            </div>
-          </form>
-        </div>
-      </section>
-
-      <section id="listings" class="container section">
-        <div class="section-head">
-          <h2>Annonces récentes</h2>
-          <span id="results-count">0 résultat</span>
-        </div>
-        <p class="hint">Les annonces sont stockées localement dans ton navigateur pour cette démo.</p>
-        <div id="listings-grid" class="listings-grid"></div>
-        <p id="empty-state" class="empty-state hidden">Aucune annonce ne correspond à vos filtres.</p>
-      </section>
-
-      <section id="publish" class="container section publish">
-        <h2>Déposer une annonce</h2>
-        <p>
-          Validation communautaire avant publication en environnement réel. Les annonces contenant des promesses de culture, de production ou d’usage illicite sont refusées.
-        </p>
-
-        <form id="publish-form" class="publish-form">
-          <label>
-            Titre
-            <input id="new-title" name="title" type="text" required maxlength="80" placeholder="Ex: Lot collector 2020" />
-          </label>
-          <label>
-            Ville
-            <input id="new-location" name="location" type="text" required maxlength="40" placeholder="Ex: Bordeaux" />
-          </label>
-          <label>
-            Type d'annonce
-            <select id="new-type" name="new-type" required>
-              <option value="vente">Vente</option>
-              <option value="echange">Échange</option>
-            </select>
-          </label>
-          <label>
-            Prix (€)
-            <input id="new-price" name="price" type="number" min="0" value="0" />
-          </label>
-          <label class="full-width">
-            Description
-            <textarea id="new-description" name="description" required maxlength="260" rows="4" placeholder="Décris l'état, l'origine et la quantité (usage collection uniquement)"></textarea>
-          </label>
-          <div class="actions-row full-width">
-            <button class="primary" type="submit">Publier l'annonce</button>
-            <button class="secondary" id="clear-local" type="button">Réinitialiser la démo</button>
-          </div>
+      <!-- Section hero + recherche rapide -->
+      <section class="hero container">
+        <h1>Marketplace de graines entre particuliers</h1>
+        <p>Découvrez des annonces de graines de collection et de jardinage entre passionnés.</p>
+        <form id="home-search-form" class="search-bar" action="annonces.html">
+          <label for="home-search" class="sr-only">Rechercher des annonces</label>
+          <input id="home-search" name="q" type="search" placeholder="Rechercher une variété, un pack, une catégorie..." />
+          <button type="submit">Rechercher</button>
         </form>
-
-        <p id="form-feedback" class="feedback hidden" aria-live="polite"></p>
-
-        <ul>
-          <li>✅ Réservé aux personnes majeures.</li>
-          <li>✅ Description orientée collection uniquement.</li>
-          <li>✅ Origine, quantité et état clairement indiqués.</li>
-        </ul>
       </section>
 
-      <section id="rules" class="container section rules">
-        <h2>Cadre légal & modération</h2>
-        <div class="rule-cards">
-          <article>
-            <h3>Conformité</h3>
-            <p>Les utilisateurs s’engagent à respecter les lois locales de leur pays et de leur région.</p>
-          </article>
-          <article>
-            <h3>Usage interdit</h3>
-            <p>Tout contenu incitant à un usage illégal, à la culture ou à la transformation est supprimé.</p>
-          </article>
-          <article>
-            <h3>Signalement</h3>
-            <p>Chaque annonce possède un bouton de signalement traité en priorité.</p>
-          </article>
+      <!-- Catégories principales -->
+      <section class="container">
+        <h2>Catégories de graines</h2>
+        <div class="categories-grid">
+          <a class="category-card" href="annonces.html?type=Feminisées">Féminisées</a>
+          <a class="category-card" href="annonces.html?type=Auto">Auto</a>
+          <a class="category-card" href="annonces.html?type=Regular">Regular</a>
+          <a class="category-card" href="annonces.html?type=Packs">Packs</a>
         </div>
+      </section>
+
+      <!-- Aperçu dynamique des annonces récentes -->
+      <section class="container">
+        <div class="section-heading">
+          <h2>Annonces récentes</h2>
+          <a href="annonces.html" class="link-action">Voir toutes les annonces</a>
+        </div>
+        <div id="featured-grid" class="ads-grid"></div>
       </section>
     </main>
 
-    <footer>
-      <div class="container footer">
-        <p>© 2026 La Bonne Seed — Marketplace de collection.</p>
-        <a href="#">CGU</a>
+    <!-- Footer global partagé -->
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p><strong>La Bonne Seed</strong> — Achetez, vendez, échangez entre growers</p>
+        <p>© 2026 La Bonne Seed</p>
       </div>
     </footer>
 
-    <script src="app.js"></script>
+    <script src="scripts.js"></script>
   </body>
 </html>

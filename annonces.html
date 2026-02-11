@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>La Bonne Seed | Annonces</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Header global -->
+    <header class="site-header">
+      <div class="container header-inner">
+        <a href="index.html" class="logo">La Bonne Seed</a>
+        <p class="slogan">Achetez, vendez, échangez entre growers</p>
+        <nav aria-label="Navigation principale">
+          <ul class="nav-links">
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="annonces.html" aria-current="page">Mes annonces</a></li>
+            <li><a href="poster-annonce.html">Poster annonce</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <!-- Outils de recherche / filtrage -->
+      <section>
+        <h1>Liste d’annonces</h1>
+        <form id="listing-filter-form" class="filters" autocomplete="off">
+          <label>
+            Recherche
+            <input id="search-input" type="search" placeholder="Nom, description, vendeur..." />
+          </label>
+          <label>
+            Type de seeds
+            <select id="type-filter">
+              <option value="">Tous</option>
+              <option value="Feminisées">Féminisées</option>
+              <option value="Auto">Auto</option>
+              <option value="Regular">Regular</option>
+              <option value="Packs">Packs</option>
+            </select>
+          </label>
+          <button type="button" id="clear-filters">Réinitialiser</button>
+        </form>
+      </section>
+
+      <!-- Grille dynamique d'annonces -->
+      <section>
+        <p id="results-count" class="muted"></p>
+        <div id="ads-grid" class="ads-grid"></div>
+        <p id="empty-message" class="empty-message" hidden>Aucune annonce trouvée avec ces critères.</p>
+      </section>
+    </main>
+
+    <!-- Footer global -->
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p><strong>La Bonne Seed</strong> — Achetez, vendez, échangez entre growers</p>
+        <p>© 2026 La Bonne Seed</p>
+      </div>
+    </footer>
+
+    <script src="scripts.js"></script>
+  </body>
+</html>
