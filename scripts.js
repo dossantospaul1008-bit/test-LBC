@@ -211,39 +211,43 @@ function initPostFormPage() {
   const form = document.querySelector("#post-form");
   if (!form) return;
 
-  const imageInput = document.querySelector("#image-input");
+  const imageUrlInput = document.querySelector("#image-url-input");
   const imagePreview = document.querySelector("#image-preview");
   const feedback = document.querySelector("#form-feedback");
 
-  let uploadedImage = "";
+  function isValidImageUrl(url) {
+    return /^https?:\/\/.+\.(jpg|jpeg|png|webp|gif|avif)(\?.*)?$/i.test(url);
+  }
 
-  imageInput.addEventListener("change", () => {
-    const file = imageInput.files?.[0];
-    if (!file) {
-      uploadedImage = "";
+  imageUrlInput.addEventListener("input", () => {
+    const imageUrl = imageUrlInput.value.trim();
+
+    if (!imageUrl || !isValidImageUrl(imageUrl)) {
       imagePreview.hidden = true;
+      imagePreview.removeAttribute("src");
       return;
     }
 
-    const reader = new FileReader();
-    reader.onload = () => {
-      uploadedImage = typeof reader.result === "string" ? reader.result : "";
-      imagePreview.src = uploadedImage;
-      imagePreview.hidden = false;
-    };
-    reader.readAsDataURL(file);
+    imagePreview.src = imageUrl;
+    imagePreview.hidden = false;
   });
 
   form.addEventListener("submit", (event) => {
     event.preventDefault();
 
+    const imageUrl = imageUrlInput.value.trim();
     const title = document.querySelector("#title-input").value.trim();
     const description = document.querySelector("#description-input").value.trim();
     const price = Number(document.querySelector("#price-input").value);
     const category = document.querySelector("#seed-type-input").value;
 
-    if (!title || !description || Number.isNaN(price) || price < 0) {
+    if (!imageUrl || !title || !description || Number.isNaN(price) || price < 0) {
       feedback.textContent = "Merci de remplir correctement tous les champs obligatoires.";
+      return;
+    }
+
+    if (!isValidImageUrl(imageUrl)) {
+      feedback.textContent = "Merci de renseigner une URL d'image valide (jpg, png, webp, gif, avif).";
       return;
     }
 
@@ -255,14 +259,14 @@ function initPostFormPage() {
       price,
       category,
       seller: "Particulier",
-      image: uploadedImage || PLACEHOLDER_IMAGE,
+      image: imageUrl,
       createdAt: Date.now(),
     });
 
     saveAds(ads);
     form.reset();
     imagePreview.hidden = true;
-    uploadedImage = "";
+    imagePreview.removeAttribute("src");
     feedback.textContent = "Annonce publiée ✅";
   });
 }

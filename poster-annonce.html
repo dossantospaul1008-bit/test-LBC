@@ -22,13 +22,13 @@
     </header>
 
     <main class="container">
-      <!-- Prompt #3 : formulaire publication + validation JS -->
+      <!-- Formulaire de publication local -->
       <section>
         <h1>Publier une annonce</h1>
-        <form id="post-form" class="post-form" enctype="multipart/form-data">
+        <form id="post-form" class="post-form">
           <label>
-            Image (upload)
-            <input id="image-input" type="file" accept="image/*" />
+            Image (URL)
+            <input id="image-url-input" type="url" required placeholder="https://..." />
           </label>
           <label>
             Titre
