@@ -195,10 +195,11 @@ function initDetailPage() {
     <article class="detail-panel">
       <span class="pill">${escapeHtml(ad.category)}</span>
       <h1>${escapeHtml(ad.title)}</h1>
-      <p>${escapeHtml(ad.description)}</p>
       <p class="price">Prix : ${ad.price} €</p>
+      <p>${escapeHtml(ad.description)}</p>
+      <p><strong>Catégorie :</strong> ${escapeHtml(ad.category)}</p>
       <p><strong>Vendeur :</strong> ${escapeHtml(ad.seller)}</p>
-      <a class="card-link contact-btn" href="mailto:contact@labonneseed.local?subject=Annonce%20${encodeURIComponent(ad.title)}">Contacter vendeur</a>
+      <a class="card-link contact-btn" href="mailto:contact@labonneseed.local?subject=Annonce%20${encodeURIComponent(ad.title)}">Contacter le vendeur</a>
     </article>
   `;
 }
