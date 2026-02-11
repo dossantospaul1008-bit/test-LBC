@@ -57,8 +57,15 @@ function getAds() {
 
   try {
     const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed : [...DEFAULT_ADS];
+    // Si le stockage est vide/corrompu, on remet un jeu de données par défaut.
+    if (!Array.isArray(parsed) || parsed.length === 0) {
+      localStorage.setItem(ADS_STORAGE_KEY, JSON.stringify(DEFAULT_ADS));
+      return [...DEFAULT_ADS];
+    }
+
+    return parsed;
   } catch {
+    localStorage.setItem(ADS_STORAGE_KEY, JSON.stringify(DEFAULT_ADS));
     return [...DEFAULT_ADS];
   }
 }
@@ -84,7 +91,7 @@ function adCardTemplate(ad) {
       <h3>${escapeHtml(ad.title)}</h3>
       <p>${escapeHtml(ad.description.slice(0, 70))}${ad.description.length > 70 ? "..." : ""}</p>
       <p class="price">${ad.price} €</p>
-      <a class="card-link" href="detail-annonce.html?id=${encodeURIComponent(ad.id)}">Voir annonce</a>
+      <a class="card-link card-link-btn" href="detail-annonce.html?id=${encodeURIComponent(ad.id)}">Voir l’annonce</a>
     </article>
   `;
 }
