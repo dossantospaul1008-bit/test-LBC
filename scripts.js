@@ -131,10 +131,10 @@ function initListingsPage() {
     const sortValue = sortFilter.value;
 
     let ads = getAds().filter((ad) => {
+      // Recherche en temps réel par titre ou catégorie.
       const matchText =
         ad.title.toLowerCase().includes(query) ||
-        ad.description.toLowerCase().includes(query) ||
-        ad.seller.toLowerCase().includes(query);
+        ad.category.toLowerCase().includes(query);
       const matchCategory = category === "" || ad.category === category;
       const matchPrice = ad.price >= minPrice && ad.price <= maxPrice;
       return matchText && matchCategory && matchPrice;
