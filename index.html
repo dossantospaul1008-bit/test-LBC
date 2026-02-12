@@ -3,63 +3,75 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>La Bonne Seed | Accueil</title>
+    <title>La Bonne Seed | Marketplace</title>
     <link rel="stylesheet" href="style.css" />
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&currency=EUR"></script>
   </head>
   <body>
-    <!-- Header global partagé sur toutes les pages -->
     <header class="site-header">
       <div class="container header-inner">
         <a href="index.html" class="logo">La Bonne Seed</a>
-        <p class="slogan">Achetez, vendez, échangez entre growers</p>
+        <p class="slogan">Marketplace entre particuliers</p>
         <nav aria-label="Navigation principale">
           <ul class="nav-links">
-            <li><a href="index.html">Accueil</a></li>
-            <li><a href="annonces.html">Mes annonces</a></li>
+            <li><a href="index.html" aria-current="page">Accueil</a></li>
+            <li><a href="annonces.html">Annonces</a></li>
             <li><a href="poster-annonce.html">Poster annonce</a></li>
+            <li><a href="detail-annonce.html">Messages</a></li>
           </ul>
         </nav>
       </div>
     </header>
 
-    <main>
-      <!-- Section hero + recherche rapide -->
-      <section class="hero container">
-        <h1>Marketplace de graines entre particuliers</h1>
-        <p>Découvrez des annonces de graines de collection et de jardinage entre passionnés.</p>
-        <form id="home-search-form" class="search-bar" action="annonces.html">
-          <label for="home-search" class="sr-only">Rechercher des annonces</label>
-          <input id="home-search" name="q" type="search" placeholder="Rechercher une variété, un pack, une catégorie..." />
-          <button type="submit">Rechercher</button>
-        </form>
+    <main class="container">
+      <section class="hero">
+        <h1>Mini marketplace full-stack (Supabase + PayPal)</h1>
+        <p>Inscription, login, annonces, messagerie et paiement en mode démo frontend.</p>
       </section>
 
-      <!-- Catégories principales -->
-      <section class="container">
-        <h2>Catégories de graines</h2>
-        <div class="categories-grid">
-          <a class="category-card" href="annonces.html?type=Feminisées">Féminisées</a>
-          <a class="category-card" href="annonces.html?type=Auto">Auto</a>
-          <a class="category-card" href="annonces.html?type=Regular">Regular</a>
-          <a class="category-card" href="annonces.html?type=Packs">Packs</a>
+      <section>
+        <h2>Authentification</h2>
+        <p class="muted">Configurez d'abord <code>SUPABASE_URL</code> et <code>SUPABASE_ANON_KEY</code> dans <code>scripts.js</code>.</p>
+        <div class="auth-grid">
+          <form id="signup-form" class="panel-form">
+            <h3>Créer un compte</h3>
+            <label>Email <input id="signup-email" type="email" required /></label>
+            <label>Mot de passe <input id="signup-password" type="password" minlength="6" required /></label>
+            <label>Nom public <input id="signup-display-name" type="text" required /></label>
+            <button type="submit">S'inscrire</button>
+          </form>
+
+          <form id="login-form" class="panel-form">
+            <h3>Connexion</h3>
+            <label>Email <input id="login-email" type="email" required /></label>
+            <label>Mot de passe <input id="login-password" type="password" required /></label>
+            <button type="submit">Se connecter</button>
+          </form>
+        </div>
+
+        <div class="auth-state">
+          <p id="auth-status" class="muted">Non connecté.</p>
+          <button id="logout-btn" type="button">Se déconnecter</button>
         </div>
       </section>
 
-      <!-- Aperçu dynamique des annonces récentes -->
-      <section class="container">
+      <section>
         <div class="section-heading">
           <h2>Annonces récentes</h2>
           <a href="annonces.html" class="link-action">Voir toutes les annonces</a>
         </div>
+        <form id="home-search-form" class="search-bar">
+          <label for="home-search" class="sr-only">Rechercher</label>
+          <input id="home-search" type="search" placeholder="Recherche en temps réel par titre ou catégorie" />
+        </form>
         <div id="featured-grid" class="ads-grid"></div>
       </section>
     </main>
 
-    <!-- Footer global partagé -->
     <footer class="site-footer">
       <div class="container footer-inner">
-        <p><strong>La Bonne Seed</strong> — Achetez, vendez, échangez entre growers</p>
-        <p>© 2026 La Bonne Seed</p>
+        <p><strong>La Bonne Seed</strong> — Mini marketplace démo</p>
       </div>
     </footer>
 

@@ -5,51 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>La Bonne Seed | Annonces</title>
     <link rel="stylesheet" href="style.css" />
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&currency=EUR"></script>
   </head>
   <body>
     <header class="site-header">
       <div class="container header-inner">
         <a href="index.html" class="logo">La Bonne Seed</a>
-        <p class="slogan">Achetez, vendez, échangez entre growers</p>
+        <p class="slogan">Marketplace entre particuliers</p>
         <nav aria-label="Navigation principale">
           <ul class="nav-links">
             <li><a href="index.html">Accueil</a></li>
-            <li><a href="annonces.html" aria-current="page">Mes annonces</a></li>
+            <li><a href="annonces.html" aria-current="page">Annonces</a></li>
             <li><a href="poster-annonce.html">Poster annonce</a></li>
+            <li><a href="detail-annonce.html">Messages</a></li>
           </ul>
         </nav>
       </div>
     </header>
 
     <main class="container">
-      <!-- Prompt #1 : section de cartes avec filtres -->
       <section>
-        <h1>Annonces disponibles</h1>
+        <h1>Liste des annonces</h1>
         <form id="listing-filter-form" class="filters" autocomplete="off">
-          <label>
-            Recherche
-            <input id="search-input" type="search" placeholder="Rechercher par titre ou catégorie..." />
-          </label>
-          <label>
-            Catégorie
+          <label>Recherche <input id="search-input" type="search" placeholder="Titre ou catégorie" /></label>
+          <label>Catégorie
             <select id="category-filter">
               <option value="">Toutes</option>
-              <option value="Feminisées">Féminisées</option>
-              <option value="Auto">Auto</option>
+              <option value="Féminisées">Féminisées</option>
               <option value="Regular">Regular</option>
+              <option value="Auto">Auto</option>
               <option value="Packs">Packs</option>
             </select>
           </label>
-          <label>
-            Prix min (€)
-            <input id="min-price-filter" type="number" min="0" placeholder="0" />
-          </label>
-          <label>
-            Prix max (€)
-            <input id="max-price-filter" type="number" min="0" placeholder="100" />
-          </label>
-          <label>
-            Trier
+          <label>Prix min (€) <input id="min-price-filter" type="number" min="0" /></label>
+          <label>Prix max (€) <input id="max-price-filter" type="number" min="0" /></label>
+          <label>Trier
             <select id="sort-filter">
               <option value="recent">Plus récentes</option>
               <option value="price-asc">Prix croissant</option>
@@ -63,14 +54,13 @@
       <section>
         <p id="results-count" class="muted"></p>
         <div id="ads-grid" class="ads-grid"></div>
-        <p id="empty-message" class="empty-message" hidden>Aucune annonce ne correspond aux filtres.</p>
+        <p id="empty-message" class="empty-message" hidden>Aucune annonce trouvée.</p>
       </section>
     </main>
 
     <footer class="site-footer">
       <div class="container footer-inner">
-        <p><strong>La Bonne Seed</strong> — Achetez, vendez, échangez entre growers</p>
-        <p>© 2026 La Bonne Seed</p>
+        <p><strong>La Bonne Seed</strong> — Mini marketplace démo</p>
       </div>
     </footer>
 
