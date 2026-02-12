@@ -1,9 +1,11 @@
 /*
   Configuration Supabase + PayPal.
-  Remplacez les placeholders par vos vraies clés avant déploiement.
+  Priorité: window.APP_CONFIG (config.js) -> placeholders fallback.
 */
-const SUPABASE_URL = "YOUR_SUPABASE_URL";
-const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
+const APP_CONFIG = window.APP_CONFIG || {};
+const SUPABASE_URL = APP_CONFIG.supabaseUrl || "YOUR_SUPABASE_URL";
+const SUPABASE_ANON_KEY = APP_CONFIG.supabaseAnonKey || "YOUR_SUPABASE_ANON_KEY";
+const PAYPAL_CLIENT_ID = APP_CONFIG.paypalClientId || "YOUR_PAYPAL_CLIENT_ID";
 const supabase =
   window.supabase && SUPABASE_URL.startsWith("http")
     ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
@@ -22,6 +24,15 @@ const FALLBACK_ADS = [
     created_at: new Date().toISOString(),
   },
 ];
+
+function ensurePaypalSdk() {
+  if (window.paypal || PAYPAL_CLIENT_ID === "YOUR_PAYPAL_CLIENT_ID") return;
+
+  const script = document.createElement("script");
+  script.src = `https://www.paypal.com/sdk/js?client-id=${encodeURIComponent(PAYPAL_CLIENT_ID)}&currency=EUR`;
+  script.async = true;
+  document.head.appendChild(script);
+}
 
 function currency(v) {
   return `${Number(v).toFixed(2)} €`;
@@ -387,3 +398,4 @@ initHomepage();
 initListingsPage();
 initDetailPage();
 initPostFormPage();
+ensurePaypalSdk();
