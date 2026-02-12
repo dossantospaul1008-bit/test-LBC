@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>La Bonne Seed | Détail annonce</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a href="index.html" class="logo">La Bonne Seed</a>
+        <p class="slogan">Marketplace entre particuliers</p>
+        <nav aria-label="Navigation principale">
+          <ul class="nav-links">
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="annonces.html">Annonces</a></li>
+            <li><a href="poster-annonce.html">Poster annonce</a></li>
+            <li><a href="detail-annonce.html" aria-current="page">Messages</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <p><a class="card-link" href="annonces.html">← Retour aux annonces</a></p>
+
+      <section id="detail-wrapper" class="detail-layout"></section>
+      <p id="detail-empty" class="empty-message" hidden>Annonce introuvable.</p>
+
+      <section>
+        <h2>Contacter le vendeur</h2>
+        <form id="message-form" class="panel-form">
+          <label>Votre message
+            <textarea id="message-content" rows="4" required placeholder="Bonjour, votre annonce est-elle toujours disponible ?"></textarea>
+          </label>
+          <button type="submit">Envoyer le message</button>
+          <p id="message-feedback" class="muted"></p>
+        </form>
+      </section>
+
+      <section>
+        <h2>Mes messages reçus</h2>
+        <div id="inbox-list" class="inbox-list"></div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p><strong>La Bonne Seed</strong> — Mini marketplace démo</p>
+      </div>
+    </footer>
+
+    <script src="scripts.js"></script>
+  </body>
+</html>

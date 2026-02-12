@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>La Bonne Seed | Poster annonce</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a href="index.html" class="logo">La Bonne Seed</a>
+        <p class="slogan">Marketplace entre particuliers</p>
+        <nav aria-label="Navigation principale">
+          <ul class="nav-links">
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="annonces.html">Annonces</a></li>
+            <li><a href="poster-annonce.html" aria-current="page">Poster annonce</a></li>
+            <li><a href="detail-annonce.html">Messages</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <section>
+        <h1>Publier une annonce</h1>
+        <p class="muted">Vous devez être connecté pour publier. Les données sont stockées dans Supabase.</p>
+        <form id="post-form" class="post-form">
+          <label>Image (URL)
+            <input id="image-url-input" type="url" required placeholder="https://..." />
+          </label>
+          <label>Titre
+            <input id="title-input" type="text" maxlength="80" required />
+          </label>
+          <label class="full-width">Description
+            <textarea id="description-input" rows="5" maxlength="500" required></textarea>
+          </label>
+          <label>Prix (€)
+            <input id="price-input" type="number" min="0" required />
+          </label>
+          <label>Catégorie
+            <select id="seed-type-input" required>
+              <option value="Féminisées">Féminisées</option>
+              <option value="Regular">Regular</option>
+              <option value="Auto">Auto</option>
+              <option value="Packs">Packs</option>
+            </select>
+          </label>
+          <button type="submit">Publier</button>
+        </form>
+        <p id="form-feedback" class="muted"></p>
+        <img id="image-preview" class="image-preview" alt="Prévisualisation" hidden />
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p><strong>La Bonne Seed</strong> — Mini marketplace démo</p>
+      </div>
+    </footer>
+
+    <script src="scripts.js"></script>
+  </body>
+</html>
