@@ -1,37 +1,53 @@
-# La Bonne Seed — Mini marketplace (Supabase + PayPal)
+# Observatoire FPF
 
-Ce projet est un front-end HTML/CSS/JS prêt pour GitHub Pages avec :
+Interface Next.js + Tailwind pour un laboratoire digital futuriste centré sur l'analyse de phénotypes, de profils terpéniques et de tendances marché.
 
-- Authentification Supabase (inscription / connexion / déconnexion)
-- Publication et affichage d'annonces
-- Messagerie entre utilisateurs
-- Bouton PayPal côté client (démo)
+## Concept UI/UX
 
-## 1) Configuration locale
+- **Atmosphère** : laboratoire confidentiel, interface d'observation premium, dark mode futuriste.
+- **Principes** : lisibilité forte, hiérarchie nette, effets subtils (glow, verre, scanlines) uniquement quand ils renforcent la compréhension.
+- **Parcours** : homepage manifeste + sections dédiées `Observatoire`, `Apprendre`, `Marché`, `Accès privé`.
 
-1. Créez un projet Supabase
-2. Exécutez `supabase/schema.sql` dans l'éditeur SQL Supabase
-3. Copiez `config.example.js` en `config.js`
-4. Remplissez vos clés Supabase + PayPal dans `config.js`
+## Design tokens
 
-> `config.js` est ignoré par git pour ne pas publier vos clés.
+Les tokens principaux sont définis dans `app/globals.css` et reliés à Tailwind dans `tailwind.config.ts`.
 
-## 2) Lancer en local
+- **Couleurs**
+  - `--color-base`: fond principal très sombre
+  - `--color-panel`: panneaux glassmorphism
+  - `--color-accent-purple`: accent néon violet
+  - `--color-accent-blue`: accent bleu électrique
+  - `--color-accent-pink`: surbrillance rose subtile
+- **Typographie**
+  - `Inter` avec hiérarchie dense et tracking technique sur les labels système
+- **Espacement**
+  - `--space-section`: rythme vertical responsive des sections
+  - `--radius-panel`: rayon principal des panneaux
 
-```bash
-python3 -m http.server 4173 --bind 0.0.0.0
+## Structure projet
+
+```text
+app/
+  education/page.tsx
+  market/page.tsx
+  observatoire/page.tsx
+  private/page.tsx
+  globals.css
+  layout.tsx
+  page.tsx
+components/
+  footer.tsx
+  header.tsx
+  homepage.tsx
+data/
+  content.ts
 ```
 
-Puis ouvrez `http://127.0.0.1:4173`.
+## Démarrage
 
-## 3) Déployer sur GitHub Pages
+```bash
+npm install
+npm run dev
+```
 
-1. Push sur votre repo GitHub
-2. `Settings > Pages`
-3. Source: `Deploy from a branch`
-4. Branche: `main` (ou votre branche de déploiement), dossier `/ (root)`
-5. Vérifiez que `config.js` existe bien dans votre branche de déploiement
-
-## 4) Requêtes SQL utiles
-
-Des requêtes prêtes à l'emploi sont fournies dans `supabase/queries.sql`.
+Puis ouvrir `http://localhost:3000`.
